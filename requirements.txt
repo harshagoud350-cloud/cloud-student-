@@ -1,5 +1,3 @@
 flask
-pymysql
-gunicorn
-cryptography
-certifi
+mysql-connector-python
+unicorn
