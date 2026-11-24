@@ -1,19 +1,20 @@
 import os
-import ssl
+import certifi
 import pymysql
 from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
 def get_db_connection():
-    ssl_context = ssl.create_default_context(cafile="/etc/ssl/certs/ca-certificates.crt")
     return pymysql.connect(
         host=os.environ.get("DB_HOST"),
         port=int(os.environ.get("DB_PORT", 4000)),
         user=os.environ.get("DB_USER"),
         password=os.environ.get("DB_PASSWORD"),
         database=os.environ.get("DB_NAME", "test"),
-        ssl=ssl_context,
+        ssl_ca=certifi.where(),
+        ssl_verify_cert=True,
+        ssl_verify_identity=True,
         cursorclass=pymysql.cursors.DictCursor
     )
 
